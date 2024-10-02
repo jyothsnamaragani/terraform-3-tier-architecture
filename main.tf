@@ -200,11 +200,11 @@ resource "aws_db_instance" "default" {
 }
 
 resource "aws_db_subnet_group" "default" {
-  name       = "main"
+  name       = "master"
   subnet_ids = [aws_subnet.database-subnet-1.id, aws_subnet.database-subnet-2.id]
 
   tags = {
-    Name = "My DB subnet group"
+    Name = "My DB master"
   }
 }
 
@@ -303,7 +303,7 @@ resource "aws_security_group" "database-sg" {
 }
 
 resource "aws_lb" "external-elb" {
-  name               = "External-LB"
+  name               = "External-ELB"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.webserver-sg.id]
@@ -311,14 +311,14 @@ resource "aws_lb" "external-elb" {
 }
 
 resource "aws_lb_target_group" "external-elb" {
-  name     = "ALB-TG"
+  name     = "ALB-TAG"
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.my-vpc.id
 }
 
 resource "aws_lb_target_group_attachment" "external-elb1" {
-  target_group_arn = aws_lb_target_group.external-elb.arn
+  target_group_arn = aws_lb_target_group.external-Elb.arn
   target_id        = aws_instance.webserver1.id
   port             = 80
 
@@ -328,7 +328,7 @@ resource "aws_lb_target_group_attachment" "external-elb1" {
 }
 
 resource "aws_lb_target_group_attachment" "external-elb2" {
-  target_group_arn = aws_lb_target_group.external-elb.arn
+  target_group_arn = aws_lb_target_group.external-Elb.arn
   target_id        = aws_instance.webserver2.id
   port             = 80
 
@@ -338,7 +338,7 @@ resource "aws_lb_target_group_attachment" "external-elb2" {
 }
 
 resource "aws_lb_listener" "external-elb" {
-  load_balancer_arn = aws_lb.external-elb.arn
+  load_balancer_arn = aws_lb.external-Elb.arn
   port              = "80"
   protocol          = "HTTP"
 
@@ -353,7 +353,7 @@ resource "aws_lb_listener" "external-elb" {
 
 output "lb_dns_name" {
   description = "The DNS name of the load balancer"
-  value       = aws_lb.external-elb.dns_name
+  value       = aws_lb.external-Elb.dns_name
 }
 
 
@@ -374,7 +374,7 @@ name = each.value
 variable "iam_users" {
 description = ""
 type = set(string)
-default = ["userone", "usertwo", "userthree", "userfour"]
+default = ["useronXe", "usertXwo", "userthXree", "userfXour"]
 }
 
 resource "aws_iam_group" "two" {
